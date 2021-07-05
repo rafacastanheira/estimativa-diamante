@@ -1,0 +1,17 @@
+﻿
+
+#stickybtn {
+    top: 322px;
+    z-index: 100;
+    font-size: 12px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    margin-left: -32px;
+    height: 80px;
+}
+
+#stickybtn:hover i {
+    background: -webkit-linear-gradient(#00d4ff, #095a79);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

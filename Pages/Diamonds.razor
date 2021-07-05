@@ -1,0 +1,73 @@
+﻿@page "/diamonds"
+
+@using System.Collections.ObjectModel;
+@using DiamondPricePrediction.Model;
+@using DiamondPricePrediction.Util;
+@inject HttpClient Http
+
+
+<StickyTool OnClicker="()=>ActionDiamond.Modal.Open()" />
+
+@if (DiamondList.Count ==0)
+{
+    <Spaner/>
+}
+
+<div class="row">
+    <Virtualize Context="diamond" Items="@DiamondList" OverscanCount="50">
+        <DiamondCard @key="diamond" Diamond="diamond"></DiamondCard>
+    </Virtualize>
+</div>
+
+
+<ActionDiamondsModal @ref="ActionDiamond" RunCBR="CBR" OnAdd="Add" />
+
+<ResultCBRModal @ref="ResultCBR"  MyDiamond="@MyDiamond" Sim="@Sim" Similarity="@Similarity" />
+
+
+
+@code {
+    public ActionDiamondsModal ActionDiamond { get; set; }
+    public ResultCBRModal ResultCBR { get; set; }
+
+    public Collection<Diamond> DiamondList { get; set; } = new Collection<Diamond>();
+
+
+    public string MyDiamond { get; set; }
+    public string Sim { get; set; }
+    public string Similarity { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        DiamondList = await Http.GetFromJsonAsync<Collection<Diamond>>("sample-data/diamonds_dataset.json");
+        //  DiamondList = await Http.GetFromJsonAsync<Collection<Diamond>>("sample-data/diamonds_dataset_mini.json");
+    }
+
+    private void CBR(Diamond diamond)
+    {
+        ActionDiamond.Close();
+
+        Console.WriteLine(diamond);
+
+        DiamondCBR cbr = new DiamondCBR(diamond, DiamondList);
+        Diamond myDiamond;
+        Diamond simDiamond;
+        var similarity = cbr.Result(out myDiamond, out simDiamond);
+
+        MyDiamond = myDiamond.ToString();
+        Sim = simDiamond.ToString();
+        Similarity = similarity.ToString();
+        Console.WriteLine("my :" + myDiamond);
+        Console.WriteLine("sim :" + simDiamond);
+        Console.WriteLine("similaraty :" + similarity);
+
+        Add(diamond);
+
+        ResultCBR.Open();
+    }
+
+    private void Add(Diamond diamond)
+    {
+        DiamondList.Insert(0, diamond);
+    }
+}

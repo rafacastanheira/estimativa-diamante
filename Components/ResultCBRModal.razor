@@ -1,0 +1,39 @@
+﻿<Modal ModalDialog="modal-dialog-centered" @ref="Modal">
+
+    <Title> Result CBR </Title>
+
+    <Body>
+        <label><strong>My Diamond on CBR</strong></label>
+        <textarea class="form-control mx-2 my-4" rows="6" readonly>@(MyDiamond)</textarea>
+        <label><strong>Similarity Diamond</strong></label>
+        <textarea class="form-control mx-2 my-4" rows="6" readonly>@(Sim)</textarea>
+
+        <div class="input-group m-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><strong>Similarity</strong></span>
+            </div>
+            <input type="text" class="form-control mr-2" readonly value="@Similarity" />
+        </div>
+    </Body>
+
+</Modal>
+
+@code {
+    [Parameter]
+    public string MyDiamond { get; set; }
+
+    [Parameter]
+    public string Sim { get; set; } 
+    
+    [Parameter]
+    public string Similarity { get; set; }
+
+    public Modal Modal { get; set; }
+
+
+    public void Open()
+    {
+        Modal.Open();
+    }
+
+}

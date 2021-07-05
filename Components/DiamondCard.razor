@@ -1,0 +1,85 @@
+﻿@using DiamondPricePrediction.Model
+<div class="col-3 my-2" style="padding-top:40px">
+    <div class="card my-2 shadow" style="border-radius:16px">
+        <div class="card-body">
+
+            <div class="rounded rounded-circle m-auto shadow"
+                 style="height:130px;width:130px;margin-top:-80px !important;">
+                <img style="object-fit: fill; width: 100%; height: 100%; margin:auto;padding:20px" src="/image/diamond.png" />
+            </div>
+
+            <div class="my-3">
+                <label><strong>X : </strong></label>
+                <input type="text" disabled class="dot" value="@Diamond.X" />
+            </div>
+
+            <div class="my-3">
+                <label><strong>Y : </strong></label>
+                <input type="text" disabled class="dot" value="@Diamond.Y"/>
+
+            </div>
+
+            <div class="my-3">
+                <label><strong>Z : </strong></label>
+                <input type="text" disabled class="dot" value="@Diamond.Z" />
+
+            </div>
+
+
+            <div class="my-3">
+                <label><strong>Cut : </strong></label>
+                <input type="text" disabled class="dot" value="@Diamond.Cut" />
+
+            </div>
+
+
+            <div class="my-3">
+                <label><strong>Color : </strong></label>
+                <input type="text" disabled class="dot" value="@Diamond.Color" />
+
+            </div>
+
+            <div class="my-3">
+                <label><strong>Carat : </strong></label>
+                <input type="text" disabled class="dot" value="@Diamond.Carat" />
+
+            </div>
+
+            <div class="my-3">
+                <label><strong>Clarity : </strong></label>
+                <input type="text" disabled class="dot" value="@Diamond.Clarity" />
+
+            </div>
+
+
+            <div class="my-3">
+                <label><strong>Depth : </strong></label>
+                <input type="text" disabled class="dot" value="@Diamond.Depth" />
+
+            </div>
+
+
+
+            <div class="my-3">
+                <label><strong>Table : </strong></label>
+                <input type="text" disabled class="dot" value="@Diamond.Table" />
+
+            </div>
+
+
+            <div class="my-3">
+                <label><strong>Price : </strong></label>
+                <input type="text" disabled class="dot" value="@Diamond.Price" />
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Diamond Diamond { get; set; }
+}

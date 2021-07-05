@@ -1,0 +1,168 @@
+﻿@using DiamondPricePrediction.Model
+<Modal ModalDialog="modal-dialog-centered" @ref="Modal">
+
+    <Title>
+        Diamond Action
+    </Title>
+    <Body>
+        <EditForm EditContext="DiamondEdit">
+            <DataAnnotationsValidator />
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">X</span>
+                </div>
+                <InputNumber @bind-Value="Diamond.X" step="0.01" class="form-control" />
+            </div>
+            <ValidationMessage For="()=>Diamond.X"></ValidationMessage>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Y</span>
+                </div>
+                <InputNumber @bind-Value="Diamond.Y" step="0.001" class="form-control" />
+            </div>
+            <ValidationMessage For="()=> Diamond.Y"></ValidationMessage>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Z</span>
+                </div>
+                <InputNumber @bind-Value="Diamond.Z" step="0.01" class="form-control" />
+            </div>
+            <ValidationMessage For="()=> Diamond.Z"></ValidationMessage>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Cut</span>
+                </div>
+                <InputSelect class="form-control" @bind-Value="Diamond.Cut">
+                    <option selected>Fair</option>
+                    <option>Good</option>
+                    <option>Very Good</option>
+                    <option>Premium</option>
+                    <option>Ideal</option>
+                </InputSelect>
+            </div>
+            <ValidationMessage For="()=> Diamond.Cut"></ValidationMessage>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Color</span>
+                </div>
+                <InputSelect class="form-control" @bind-Value="Diamond.Color">
+                    <option>J</option>
+                    <option>I</option>
+                    <option>H</option>
+                    <option>G</option>
+                    <option>F</option>
+                    <option>E</option>
+                    <option>D</option>
+                </InputSelect>
+            </div>
+            <ValidationMessage For="()=> Diamond.Color"></ValidationMessage>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Carat</span>
+                </div>
+                <InputNumber @bind-Value="Diamond.Carat" step="0.01" class="form-control" />
+            </div>
+            <ValidationMessage For="()=> Diamond.Carat"></ValidationMessage>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Clarity</span>
+                </div>
+                <InputSelect class="form-control" @bind-Value="Diamond.Clarity">
+                    <option selected>I1</option>
+                    <option>SI2</option>
+                    <option>SI1</option>
+                    <option>VS2</option>
+                    <option>VS1</option>
+                    <option>VVS2</option>
+                    <option>VVS1</option>
+                    <option>IF</option>
+                </InputSelect>
+            </div>
+            <ValidationMessage For="()=> Diamond.Clarity"></ValidationMessage>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Depth</span>
+                </div>
+                <InputNumber @bind-Value="Diamond.Depth" step="0.01" class="form-control" />
+            </div>
+            <ValidationMessage For="()=> Diamond.Depth"></ValidationMessage>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Table</span>
+                </div>
+                <InputNumber @bind-Value="Diamond.Table" step="0.01" class="form-control" />
+            </div>
+            <ValidationMessage For="()=> Diamond.Table"></ValidationMessage>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Price</span>
+                </div>
+                <InputNumber @bind-Value="Diamond.Price" step="0.01" class="form-control" />
+            </div>
+            <ValidationMessage For="()=> Diamond.Price"></ValidationMessage>
+
+        </EditForm>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Modal.Close()">Close</button>
+        <button type="button" class="btn btn-primary" @onclick="OnValidSubmitForm">Add</button>
+        <button type="button" class="btn btn-success" @onclick="CBR">CBR</button>
+    </Footer>
+
+</Modal>
+
+@code {
+    public Modal Modal { get; set; }
+    public EditContext DiamondEdit;
+
+    public Diamond Diamond = new Diamond();
+
+    [Parameter]
+    public EventCallback<Diamond> RunCBR { get; set; }
+
+
+    [Parameter]
+    public EventCallback<Diamond> OnAdd { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        DiamondEdit = new EditContext(Diamond);
+    }
+
+    public void OnValidSubmitForm()
+    {
+        if (DiamondEdit.Validate() && Diamond.Price is not null)
+        {
+            Console.WriteLine(Diamond.ToString());
+            // here add to list
+            OnAdd.InvokeAsync(Diamond.Clone());
+
+            Close();
+        }
+    }
+
+    public async Task CBR()
+    {
+        if (DiamondEdit.Validate())
+        {
+            await RunCBR.InvokeAsync(Diamond.Clone());
+        }
+    }
+
+
+    public void Close()
+    {
+        Modal.Close();
+    }
+
+
+}

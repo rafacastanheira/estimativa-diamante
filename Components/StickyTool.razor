@@ -1,0 +1,11 @@
+﻿<button id="stickybtn" @onclick="Clicked" class="btn btn-sm btn-default position-sticky pt-2 shadow">
+    <i class="oi oi-beaker"></i>
+</button>
+
+@code {
+    [Parameter]
+    public EventCallback OnClicker { get; set; }
+
+    private async Task Clicked()=>
+       await OnClicker.InvokeAsync();
+}
